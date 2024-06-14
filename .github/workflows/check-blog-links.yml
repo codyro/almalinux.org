@@ -1,10 +1,10 @@
-name: Check almalinux.org for broken links with lychee
+name: Check almalinux.org/blog for broken links with lychee
 
 on:
   repository_dispatch:
   workflow_dispatch:
   schedule:
-    - cron: "00 13 * * *"
+    - cron: "05 13 * * *"
 
 jobs:
   linkChecker:
@@ -20,14 +20,14 @@ jobs:
           hugo-version: '0.127.0'
           # extended: true
 
-      - name: Build
+      - name: Build Site
         run: hugo --minify
 
       - name: Link Checker
         id: lychee
         uses: lycheeverse/lychee-action@2b973e86fc7b1f6b36a93795fe2c9c6ae1118621 # v1.10.0
         with:
-          args: public/
+          args: --accept '429' public/blog
 
       - name: Create Issue From File
         if: env.lychee_exit_code != 0
