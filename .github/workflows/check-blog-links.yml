@@ -3,6 +3,11 @@ name: Check almalinux.org/blog for broken links with lychee
 on:
   repository_dispatch:
   workflow_dispatch:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+  # Links can go stale
   # schedule:
   #  - cron: "05 13 * * *"
 
