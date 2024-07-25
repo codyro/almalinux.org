@@ -107,4 +107,6 @@ func main () {
 ```
 ````
 
+Some silly change
+
 Supported highlighting languages can be found [here](https://gohugo.io/content-management/syntax-highlighting/#list-of-chroma-highlighting-languages).
