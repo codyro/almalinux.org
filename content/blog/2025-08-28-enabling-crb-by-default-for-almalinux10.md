@@ -1,4 +1,4 @@
-i---
+---
 title: "Enabling CRB by default for AlmaLinux 10"
 type: blog
 author:
