@@ -1,11 +1,11 @@
----
+i---
 title: "Enabling CRB by default for AlmaLinux 10"
 type: blog
 author:
  name: "Neal Gompa"
  bio: "Principal Consultant, Velocity Limitless; AlmaLinux Engineering Steering Committee member"
  image: /users/nealgompa.png
-date: '2025-08-28'
+date: '2025-09-05'
 images:
   - /blog-images/2025/crb_enabled_almalinux10.png
 post:
@@ -14,7 +14,7 @@ post:
 
 ---
 
-AlmaLinux OS 10 and AlmaLinux OS Kitten 10 will have the CRB repository enabled by default.
+AlmaLinux OS 10 will have the CRB repository turned on by default in the 10.1 release scheduled for **2025-09-05**, while AlmaLinux OS Kitten 10 has had it enabled by default since the update on 2025-08-27 (`almalinux-kitten-repos-10.0-9.el10.0.1`).
 
 As part of our efforts to continue improving the experience for AlmaLinux users, we are enabling the CRB repository by default.
 This reduces the friction in using software from Fedora Extra Packages from Enterprise Linux (EPEL).
@@ -22,7 +22,7 @@ This reduces the friction in using software from Fedora Extra Packages from Ente
 ## What is the CRB repository?
 
 The CRB repository is an extra collection of packages that have not been historically made available by default.
-A lot of the packages are primiarly useful for developing software,
+A lot of the packages are primarily useful for developing software,
 but it also includes software that is used by a number of popular packages (such as the KDE Plasma Desktop, among others)
 that are not needed for the core Enterprise Linux solution set.
 
@@ -39,8 +39,23 @@ Error:
 (try to add '--skip-broken' to skip uninstallable packages or '--nobest' to use not only best candidate packages)
 ```
 
-This is the result of trying to install packages from EPEL that depend on packages that are in the CRB repository and the repository is not enabled on the system.
+This is the result of trying to install packages from [EPEL](https://docs.fedoraproject.org/en-US/epel/) that depend on packages that are in the CRB repository and the repository is not enabled on the system.
 Many users trip up on this and it results in a lot of bug reports about broken dependencies to EPEL maintainers.
+
+## If I already have AlmaLinux OS 10 / AlmaLinux OS Kitten 10, what will happen?
+
+The CRB repository will be enabled moving forward by setting `enabled=1` in `almalinux-crb.repo`. [Here](https://git.almalinux.org/rpms/almalinux-release/commit/4ad4fbd62a25032d5f11e665393d109b0f5ff9b8) is the commit with the change.
+
+## If I don't want it enabled, how can I disable it?
+
+There are various ways to disable the CRB repository after this change takes effect, the easiest way being to use `config-manager`, which is part of the `dnf-utils` package:
+
+```shell
+# Disable the CRB repository
+dnf config-manager --disable crb
+```
+
+## New selinux-policy-extra package for AlmaLinux OS 10.1
 
 Speaking of EPEL, the forthcoming AlmaLinux OS 10.1 release will introduce a new `selinux-policy-extra` package in the CRB repository,
 which will be necessary for software from EPEL to work properly with SELinux.
@@ -49,3 +64,4 @@ For systems upgrading after AlmaLinux OS 10.1 releases, `selinux-policy-extra` w
 As part of preparing for this change and resolving the larger usability issues with leveraging packages from EPEL,
 the AlmaLinux Engineering Steering Committee (ALESCo) has approved [a change to AlmaLinux that enables the CRB repository by default](https://github.com/AlmaLinux/ALESCo/blob/master/rfcs/0006-enable-crb-on-almalinux-10.md).
 This will apply to all installs so that the `selinux-policy-extra` package will be available and installed when `epel-release` is installed.
+
